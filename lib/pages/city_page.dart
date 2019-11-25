@@ -5,10 +5,6 @@ import 'dart:convert';
 import 'package:lpinyin/lpinyin.dart';
 
 class CityPage extends StatefulWidget {
-  final String city;
-
-  CityPage({Key key, this.city}) : super(key: key);
-
   @override
   _CityPageState createState() => _CityPageState();
 }
@@ -100,7 +96,7 @@ class _CityPageState extends State<CityPage> {
                     Icons.place,
                     size: 20,
                   ),
-                  Text(widget.city ?? '')
+                  Text('北京市')
                 ],
               ),
             ),

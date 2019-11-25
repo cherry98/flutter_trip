@@ -108,7 +108,7 @@ class _WebViewState extends State<WebView> {
               initialChild: Container(
                 color: Colors.white,
                 child: Center(
-                  child: Text('Loading'),
+                  child: CircularProgressIndicator(),
                 ),
               ), //加载出来前loading条
             ),

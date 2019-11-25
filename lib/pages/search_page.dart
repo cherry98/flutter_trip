@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_trip/dao/search_dao.dart';
 import 'package:flutter_trip/model/search_model.dart';
+import 'package:flutter_trip/pages/speak_page.dart';
 import 'package:flutter_trip/utils/navigator_util.dart';
 import 'package:flutter_trip/widget/search_bar.dart';
 import 'dart:ui';
@@ -92,6 +93,9 @@ class _SearchPageState extends State<SearchPage> {
               hint: widget.hint ?? SEARCH_BAR_DEFAULT_TEXT,
               hideLeft: widget.hideLeft,
               defaultText: widget.keyword,
+              speakClick: () {
+                NavigatorUtil.push(context, SpeakPage());
+              },
               leftButtonClick: () {
                 Navigator.pop(context);
               },

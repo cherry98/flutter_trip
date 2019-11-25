@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_trip/model/common_model.dart';
+import 'package:flutter_splash_screen/flutter_splash_screen.dart';
 import 'package:flutter_trip/pages/home_page.dart';
 import 'package:flutter_trip/pages/my_page.dart';
 import 'package:flutter_trip/pages/search_page.dart';
 import 'package:flutter_trip/pages/travel_page.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:package_info/package_info.dart';
 
-/**
- * 1.PageView相当于android中的ViewPager
- * 2.WillPopScope-双击返回与界面退出提示
- */
+//1.PageView相当于android中的ViewPager
+// 2.WillPopScope-双击返回与界面退出提示
 
 class TabNavigator extends StatefulWidget {
   @override
@@ -19,8 +19,15 @@ class _TabNavigatorState extends State<TabNavigator> {
   final _defaultColor = Colors.grey;
   final _activeColor = Colors.blue;
   int _currentIndex = 0;
-  List<CommonModel> list = [];
   var _controller = PageController(initialPage: 0);
+  DateTime _lastPressAt; //上次点击时间
+
+  @override
+  void initState() {
+    hideScreen();
+    getPackageInfo();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +43,7 @@ class _TabNavigatorState extends State<TabNavigator> {
               MyPage()
             ],
           ),
-          onWillPop: null),
+          onWillPop: exitApp),
       bottomNavigationBar: BottomNavigationBar(
         selectedFontSize: 12,
         unselectedFontSize: 12,
@@ -79,5 +86,38 @@ class _TabNavigatorState extends State<TabNavigator> {
   void dispose() {
     _controller.dispose();
     super.dispose();
+  }
+
+  //退出app
+  Future<bool> exitApp() {
+    if (_lastPressAt == null ||
+        DateTime.now().difference(_lastPressAt) > Duration(seconds: 2)) {
+      Fluttertoast.showToast(
+          msg: '再按一次退出应用',
+          backgroundColor: Colors.grey,
+          toastLength: Toast.LENGTH_LONG,
+          fontSize: 14);
+      //两次点击时间超过两秒重新计时
+      _lastPressAt = DateTime.now();
+      return Future.value(false);
+    }
+    return Future.value(true);
+  }
+
+  //获取packageInfo
+  void getPackageInfo() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    String appName = packageInfo.appName;
+    String packageName = packageInfo.packageName;
+    String version = packageInfo.version;
+    String buildNumber = packageInfo.buildNumber;
+    print(
+        'appName:$appName,packageName:$packageName,version:$version,buildNumber:$buildNumber');
+  }
+
+  Future<void> hideScreen() async {
+    Future.delayed(Duration(milliseconds: 2000), () {
+      FlutterSplashScreen.hide();
+    });
   }
 }

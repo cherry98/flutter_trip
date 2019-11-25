@@ -216,12 +216,13 @@ class _HomePageState extends State<HomePage> {
   }
 
   //跳转城市页面
-  void _jumpToCity() {
-    NavigatorUtil.push(
-        context,
-        CityPage(
-          city: city,
-        ));
+  void _jumpToCity() async{
+    String result = await NavigatorUtil.push(context, CityPage());
+    if (result != null) {
+      setState(() {
+        city = result;
+      });
+    }
   }
 
   //跳转语音识别页面
