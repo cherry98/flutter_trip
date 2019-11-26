@@ -7,7 +7,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter-携程',
+      title: 'flutter携程',
       theme: ThemeData(primarySwatch: Colors.blue),
       home: Container(
         child: TabNavigator(),
